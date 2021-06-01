@@ -1,0 +1,33 @@
+﻿@model ProductListViewModel
+@{
+    ViewData["Title"] = "Shop Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="row">
+    <div class="col-md-3">
+        @await Component.InvokeAsync("CategoryList")
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="~/img/@product.ImageUrl" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@Html.Raw(product.Description)</p>
+                            <a asp-action="Details" asp-controller="Shop" asp-route-url="@product.Url" class="btn btn-primary btn-sm">İncele</a>
+                            <a class="btn btn-primary btn-sm">Sepete Ekle</a>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            }
+        </div>
+
+    </div>
+
+</div>
+

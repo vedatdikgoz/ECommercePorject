@@ -1,0 +1,65 @@
+﻿@model ProductListViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="jumbotron">
+    <h1 class="display-3">Hello, world!</h1>
+    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+    </p>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-3">
+        @await Component.InvokeAsync("CategoryList")
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5>Ara</h5>
+            </div>
+            <div class="card-body">
+                <form action="/search">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="q" placeholder="Aramak için..." required="required">
+                    </div>
+
+                    <button class="btn btn-secondary btn-sm btn-block" type="submit">Ara</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="~/img/@product.ImageUrl" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            @*<p class="card-text">@Html.Raw(product.Description)</p>*@
+                            <p>@product.Price ₺</p>
+                            <a asp-action="Details" asp-controller="Shop" asp-route-url="@product.Url" class="btn btn-primary btn-sm">İncele</a>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" style="display: inline;">
+                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="btn btn-primary btn-sm">Sepete Ekle</button>
+                                </form>
+                            }
+
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

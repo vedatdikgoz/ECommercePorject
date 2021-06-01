@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Shopapp.WebUI</title>
+
+    <link href="/customcss/united.css" rel="stylesheet" />
+    <link href="/node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/node_modules/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>
+    <script src="/node_modules/alertifyjs/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="/node_modules/alertifyjs/build/css/alertify.min.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home">ShopApp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a asp-controller="Shop" asp-action="Index" class="nav-link">Ürünler</a>
+                </li>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Cart" asp-action="Index">Sepet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/orders">Siparişler</a>
+                    </li>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Index">Administrator</a>
+                        </li>
+                    }
+
+                }
+
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account/manager">@User.Identity.Name</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/account/logout">Çıkış Yap</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a href="/account/login" class="nav-link">Giriş</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/account/register" class="nav-link">Kayıt Ol</a>
+                    </li>
+                }
+
+            </ul>
+
+        </div>
+    </nav>
+    <main class="my-3">
+        <div class="container">
+            
+        </div>
+    </main>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-3 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Vedat Dikgöz 2020</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+</body>
+</html>
+
+
+
+
+

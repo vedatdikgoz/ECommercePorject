@@ -1,0 +1,111 @@
+﻿@model CategoryAddViewModel
+@{
+    ViewData["Title"] = "Admin Kategorileri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Admin Kategorileri</h4>
+        <hr />
+
+        <a class="btn btn-info btn-sm" data-toggle="modal" data-target="#categoryAddModal">Kategori Ekle</a>
+        <div class="modal fade" id="categoryAddModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Kategori Ekleme</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form id="categoryAddForm">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="Name" placeholder="Kategori Adı">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" asp-for="Url" placeholder="Uzantı">
+                                <span asp-validation-for="Url" class="text-danger"></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="btn-group">
+                            <a class="btn btn-warning mr-2" id="btnCancel">İptal</a>
+                            <a class="btn btn-info" id="btnSave">Kaydet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <hr />
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <td style="width: 30px">Id</td>
+                    <td>Kategori Adı</td>
+                    <td style="width: 150px"></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.Categories.Count > 0)
+                {
+                    @foreach (var item in ViewBag.Categories)
+                    {
+                        <tr>
+                            <td>@item.CategoryId</td>
+                            <td>@item.Name</td>
+
+
+                            <td>
+                                <a asp-controller="Admin" asp-action="CategoryUpdate" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary mr-2">Düzenle</a>
+
+                                <form asp-controller="Admin" asp-action="DeleteCategory" method="post" style="display: inline;">
+                                    <input type="hidden" name="categoryId" value="@item.CategoryId">
+                                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <h3>Ürün Bulunamadı</h3>
+                    </div>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            var categoryFormData = $("#categoryAddForm").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/CategoryAdd",
+                data: categoryFormData,
+                success: function () {
+                    window.location.href = "/Admin/CategoryList";
+                   
+                }
+            });
+        });
+
+        $("#btnCancel").click(function () {
+            window.location.href = "/Admin/CategoryList";
+        });
+    })
+</script>
+
+
+
+
+

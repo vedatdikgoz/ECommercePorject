@@ -1,0 +1,84 @@
+﻿@model ProductListViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+        <h4>Admin Ürünleri</h4>
+        <hr />
+        <a class="btn btn-info btn-sm" asp-controller="Admin" asp-action="ProductAdd">Ürün Ekle</a>
+        <hr />
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>                  
+                    <td style="width: 100px">Resim</td>
+                    <td>Ad</td>
+                    <td style="width: 60px">Fiyat</td>
+                    <td style="width: 30px">Adet</td>
+                    <td style="width: 20px">Anasayfa</td>
+                    <td style="width: 20px">Onaylı</td>
+                    <td style="width: 150px"></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Products.Count > 0)
+                {
+                    @foreach (var item in Model.Products)
+                    {
+                <tr>                    
+                    <td><img src="~/img/@item.ImageUrl" width="80" /></td>
+                    <td>@item.Name</td>
+                    <td>@item.Price ₺</td>
+                    <td>@item.Stock</td>
+                    <td>
+                        @if (item.IsHome)
+                        {
+                            <i class="fa fa-check-circle"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times-circle"></i>
+                        }
+                    </td>
+                    <td>
+                        @if (item.IsApproved)
+                        {
+                            <i class="fa fa-check-circle"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-times-circle"></i>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="ProductUpdate" asp-route-id="@item.ProductId" class="btn btn-sm btn-primary mr-2">Düzenle</a>
+
+                        <form asp-controller="Admin" asp-action="DeleteProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="productId" value="@item.ProductId">
+                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <h3>Ürün Bulunamadı</h3>
+                    </div>
+                }
+
+            </tbody>
+        </table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

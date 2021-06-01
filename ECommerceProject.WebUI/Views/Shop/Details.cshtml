@@ -1,0 +1,107 @@
+﻿@model ProductDetailModel
+@{
+    ViewData["Title"] = "Shop Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+<div class="row">
+    <div class="col-md-3">
+        <img src="~/img/@Model.Product.ImageUrl" class="img-fluid">
+    </div>
+    <div class="col-md-9">
+        <h1 class="mb-3">@Model.Product.Name</h1> <hr />
+        @foreach (var item in Model.Categories)
+        {
+            <a asp-controller="Shop" asp-action="Index" asp-route-category="@item.Url" class="btn btn-link p-0 mb-3">@item.Name</a>
+        }
+        <div class="mb-3">
+            <h4 class="text-primary mb-3">
+                ₺ @Model.Product.Price
+            </h4>
+
+
+            <form asp-controller="Cart" asp-action="AddToCart" method="post" class="form-inline">
+                <input type="hidden" name="productId" value="@Model.Product.ProductId" />
+                <div class="input-group mb-3">
+                    <input type="number" name="quantity" value="1" class="form-control" min="1" step="1" style="width: 100px" />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-cart-plus"></i> Sepete Ekle
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#home">Ürün Açıklaması</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#yorum">Değerlendirmeler</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#taksit">Taksit Seçenekleri</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#iade">İade Koşulları</a>
+    </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade" id="home">
+        <p class="p-3">@Html.Raw(Model.Product.Description)</p>
+    </div>
+    <div class="tab-pane fade active show" id="yorum">
+ 
+    </div>
+    <div class="tab-pane fade" id="taksit">
+
+    </div>
+    <div class="tab-pane fade" id="iade">
+        <p>İade işlemlerinizi aşağıdaki şekilde yapmalısınız:</p>
+        <ul>
+            <li>
+                Ürünün adresinize teslim tarihinden itibaren 14 gün içinde "Sipariş Takibi" sayfasından "İade ve Geri gönderim" başvurusunda bulunarak iade sürecinizi başlatabilirsiniz.
+            </li>
+            <li>
+                Ürünü iade etmek için, orijinal kutusuyla ve faturasıyla birlikte Shopapp.com’a göndermelisiniz. İadenizin kabul edilmesi için, ürünün hasar görmemiş ve kullanılmamış olması gerekmektedir.
+            </li>
+            <li>
+                Daha detaylı bilgi için Çözüm Merkezi sayfasını ziyaret edebilirsiniz.
+            </li>
+        </ul>
+        <p>Bedel İadesi:</p>
+        <p>
+            İade işlemi sonuçlandıktan sonra bedel ödemesi kredi kartınıza/banka hesabınıza 24 saat içinde yapılmaktadır. Ödeme işlemlerinin hesabınıza yansıma süresi bankanıza göre değişkenlik gösterebilir.
+
+            Alışveriş kredisi ile satın alınan ürün iadelerinde; standart prosedür geçerlidir.
+
+            Ürün iptal/iadeniz gerçekleştiği durumda, ürün tutarınız Shopapp tarafından tanımladığınız hesabınıza geri ödenir.
+
+            Kredili siparişiniz iptal/iade alındığında krediniz kapanmış sayılmamaktadır. Ürün iptal/iadesinden sonra ayrıca krediden cayma talebiniz olur ise banka ile bireysel olarak iletişime geçmeniz gerekmektedir. Sipariş tarihinizden kredi kapama tarihinize kadar oluşan faizden sorumlu olacaksınız.
+        </p>
+        <a href="#">İade başvurusunda nasıl bulunabilirim?</a>
+    </div>
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+<link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+

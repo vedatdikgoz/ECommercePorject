@@ -1,0 +1,81 @@
+﻿@model RoleViewModel
+
+@{
+    ViewData["Title"] = "RoleCreate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Roller</h4>
+<br />
+<a class="btn btn-info btn-sm" data-toggle="modal" data-target="#roleCreateModal">Rol Oluştur</a>
+<hr />
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Id</th>
+        <th>Role İsmi</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var item in ViewBag.Roles)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>
+                <form asp-controller="Admin" asp-action="RoleDelete" asp-route-id="@item.Id" method="post">
+                    <button class="btn btn-danger btn-sm" type="submit">Sil</button>
+                </form>
+
+            </td>
+            <td><a class="btn btn-sm btn-warning" asp-controller="Admin" asp-action="RoleUpdate" asp-route-id="@item.Id">Güncelle</a></td>
+        </tr>
+    }
+</table>
+
+
+
+
+<div class="modal fade" id="roleCreateModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Rol Oluştur</h3>
+            </div>
+            <div class="modal-body">
+                <form id="roleCreateForm">
+                    <div class="form-group">
+                        <input class="form-control" asp-for="Name" placeholder="Rol Adı">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <a class="btn btn-warning mr-2" id="btnCancel">İptal</a>
+                    <a class="btn btn-info" id="btnSave">Kaydet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#btnSave").click(function() {
+            var roleFormData = $("#roleCreateForm").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/Admin/RoleCreate",
+                data: roleFormData,
+                success: function() {
+                    window.location.href = "/Admin/Roles";
+                }
+            });
+        });
+
+        $("#btnCancel").click(function () {
+            window.location.href = "/Admin/Roles";
+        });
+    })
+</script>
